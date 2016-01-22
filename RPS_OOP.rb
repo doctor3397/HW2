@@ -8,14 +8,18 @@ end
 # 人類玩家的類別
 class Human < Player
     def get_gesture
-    input = gets.chomp
+        begin 
+            puts "please choose one of the following: R / P / S"
+            input = gets.chomp.upcase
+        end while !["R", "P", "S"].include?(input)
+        input
     end
 end
 
 # 電腦的類別
 class Computer < Player
     def get_gesture
-    input = ['R', 'P', 'S'].shuffle!.last
+        input = ['R', 'P', 'S'].shuffle!.last
     end
 end
 
@@ -32,16 +36,15 @@ class RPS
         puts "|===============================================|" 
         puts "|      Welcome to Rock Paper Scissors!!!        |"
         puts "|===============================================|"
-        puts "please choose one of the following: R / P / S"
     end
 
     def get_player_gestures
-        #取得玩家和電腦兩個物件的
-        bob = Human.new("Bob")
+        #取得玩家和電腦兩個物件
+        hu = Human.new("Bob")
         comp = Computer.new("comp")
-        b1 = bob.get_gesture
+        h1 = hu.get_gesture
         c1 = comp.get_gesture
-        decide(b1, c1)
+        decide(h1, c1)
     end
 
     def decide(user_input,comp_input)
@@ -67,9 +70,11 @@ class RPS
         if(continue == "Y")
             intro
             get_player_gestures
-        else
+        elsif(continue == "N")
             puts "Good Bye! Thanks for playing!"
             exit
+        else
+            continue?()
         end
     end
 
